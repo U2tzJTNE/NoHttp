@@ -32,7 +32,7 @@ public class RestResponse<T> implements Response<T> {
     /**
      * Corresponding handle URL.
      */
-    private Request<T> request;
+    private final Request<T> request;
 
     /**
      * Whether from the cache.
@@ -55,7 +55,7 @@ public class RestResponse<T> implements Response<T> {
     /**
      * The error message.
      */
-    private Exception mException;
+    private final Exception mException;
 
     /**
      * Create succeed response.
@@ -138,8 +138,9 @@ public class RestResponse<T> implements Response<T> {
             }
         }
         T result = get();
-        if (result != null)
+        if (result != null) {
             builder.append(result.toString());
+        }
         return builder.toString();
     }
 }

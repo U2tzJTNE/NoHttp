@@ -31,19 +31,19 @@ public class Connection implements Closeable {
     /**
      * NetworkExecutor
      */
-    private Network network;
+    private final Network network;
     /**
      * Server response header.
      */
-    private Headers mResponseHeaders;
+    private final Headers mResponseHeaders;
     /**
      * Server data stream, may be the error or input.
      */
-    private InputStream mServerStream;
+    private final InputStream mServerStream;
     /**
      * Exception of network.
      */
-    private Exception mException;
+    private final Exception mException;
 
     /**
      * Create a response.

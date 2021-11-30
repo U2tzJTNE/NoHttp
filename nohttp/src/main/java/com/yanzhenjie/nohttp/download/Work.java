@@ -26,10 +26,10 @@ import java.util.concurrent.FutureTask;
  * Created by YanZhenjie on 2018/2/13.
  */
 final class Work<T extends DownloadRequest>
-  extends FutureTask<Void>
-  implements Cancelable, Comparable<Work<? extends DownloadRequest>> {
+        extends FutureTask<Void>
+        implements Cancelable, Comparable<Work<? extends DownloadRequest>> {
 
-    private Worker<T> mWorker;
+    private final Worker<T> mWorker;
     private final int mWhat;
     private final DownloadListener mCallback;
 
@@ -55,7 +55,9 @@ final class Work<T extends DownloadRequest>
 
     @Override
     public void run() {
-        if (mLock == null) throw new IllegalStateException("The lock is null.");
+        if (mLock == null) {
+            throw new IllegalStateException("The lock is null.");
+        }
         synchronized (mLock) {
             super.run();
             mLock.notify();
@@ -72,8 +74,8 @@ final class Work<T extends DownloadRequest>
             Throwable cause = e.getCause();
             if (isCancelled()) {
                 mCallback.onCancel(mWhat);
-            } else if (cause != null && cause instanceof Exception) {
-                mCallback.onDownloadError(mWhat, (Exception)cause);
+            } else if (cause instanceof Exception) {
+                mCallback.onDownloadError(mWhat, (Exception) cause);
             } else {
                 mCallback.onDownloadError(mWhat, new Exception(cause));
             }

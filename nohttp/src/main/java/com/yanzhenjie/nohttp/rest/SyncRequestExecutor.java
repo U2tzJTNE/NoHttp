@@ -22,7 +22,9 @@ import com.yanzhenjie.nohttp.NoHttp;
  * <p>
  * Synchronization handle executor.
  * </p>
- * Created by Yan Zhenjie on 2016/10/12.
+ *
+ * @author Yan Zhenjie
+ * @date 2016/10/12
  */
 public enum SyncRequestExecutor {
 

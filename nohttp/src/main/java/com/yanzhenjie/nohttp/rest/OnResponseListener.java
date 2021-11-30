@@ -19,7 +19,7 @@ package com.yanzhenjie.nohttp.rest;
  * Created in Jul 28, 2015 7:32:53 PM.
  *
  * @param <T> a generic, on behalf of you can accept the result type, .It should be with the {@link Request},
- * {@link Response}.
+ *            {@link Response}.
  * @author Yan Zhenjie.
  */
 public interface OnResponseListener<T> {

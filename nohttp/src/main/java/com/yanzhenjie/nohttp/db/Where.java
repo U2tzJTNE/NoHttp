@@ -31,7 +31,7 @@ public class Where {
 
         IN("IN"), EQUAL("="), NO_EQUAL("!="), ThAN_LARGE(">"), THAN_SMALL("<");
 
-        private String value;
+        private final String value;
 
         Options(String value) {
             this.value = value;
@@ -43,7 +43,7 @@ public class Where {
         }
     }
 
-    private StringBuilder builder;
+    private final StringBuilder builder;
 
     public Where() {
         builder = new StringBuilder();
@@ -94,14 +94,16 @@ public class Where {
         if (Options.EQUAL.equals(op) || Options.ThAN_LARGE.equals(op) || Options.THAN_SMALL.equals(op) || Options
                 .NO_EQUAL.equals(op)) {
             addColumnName(columnName, op);
-            if (isNumber(value))
+            if (isNumber(value)) {
                 builder.append(value);
-            else
+            } else {
                 builder.append("'").append(value).append("'");
-        } else if (Options.IN.equals(op) && value instanceof List<?>)
+            }
+        } else if (Options.IN.equals(op) && value instanceof List<?>) {
             addColumnName(columnName, op).append(value).in((List<?>) value);
-        else
+        } else {
             throw new IllegalArgumentException("Value is not supported by the data type");
+        }
         return this;
     }
 
@@ -109,21 +111,24 @@ public class Where {
         builder.append(Options.IN).append(" (");
         String sep = ", ";
         for (T value : values) {
-            if (value instanceof CharSequence)
+            if (value instanceof CharSequence) {
                 builder.append("'").append(value).append("'");
-            else if (value instanceof Integer || value instanceof Long || value instanceof Short)
+            } else if (value instanceof Integer || value instanceof Long || value instanceof Short) {
                 builder.append(value);
+            }
             builder.append(sep);
         }
-        if (builder.lastIndexOf(sep) > 0)
+        if (builder.lastIndexOf(sep) > 0) {
             builder.delete(builder.length() - 2, builder.length());
+        }
         builder.append(")");
         return this;
     }
 
     private Where and() {
-        if (builder.length() > 0)
+        if (builder.length() > 0) {
             builder.append(" AND ");
+        }
         return this;
     }
 
@@ -146,8 +151,9 @@ public class Where {
     }
 
     private Where or() {
-        if (builder.length() > 0)
+        if (builder.length() > 0) {
             builder.append(" OR ");
+        }
         return this;
     }
 
@@ -188,7 +194,7 @@ public class Where {
     }
 
     public static boolean isNumber(Object value) {
-        return value != null && (value instanceof Character || value instanceof Integer || value instanceof Long ||
+        return (value instanceof Character || value instanceof Integer || value instanceof Long ||
                 value instanceof Short || value instanceof Double || value instanceof Float);
     }
 }

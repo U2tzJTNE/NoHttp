@@ -21,11 +21,12 @@ import com.yanzhenjie.nohttp.tools.CacheStore;
 import com.yanzhenjie.nohttp.tools.Encryption;
 
 /**
- * Created by YanZhenjie on 2017/12/21.
+ * @author YanZhenjie
+ * @date 2017/12/21
  */
 public abstract class BasicCacheStore implements CacheStore<CacheEntity> {
 
-    private Context mContext;
+    private final Context mContext;
 
     public BasicCacheStore(Context context) {
         mContext = context;

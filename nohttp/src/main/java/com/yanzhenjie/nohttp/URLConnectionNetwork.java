@@ -28,11 +28,13 @@ import java.util.Map;
  * <p>
  * Implement the network layer based on HttpURLConnection.
  * </p>
- * Created by Yan Zhenjie on 2017/2/12.
+ *
+ * @author Yan Zhenjie
+ * @date 2017/2/12
  */
 public class URLConnectionNetwork implements Network {
 
-    private HttpURLConnection mUrlConnection;
+    private final HttpURLConnection mUrlConnection;
 
     public URLConnectionNetwork(HttpURLConnection urlConnection) {
         this.mUrlConnection = urlConnection;

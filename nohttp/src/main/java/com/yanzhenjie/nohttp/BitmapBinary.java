@@ -31,12 +31,13 @@ import java.io.InputStream;
  * </p>
  * Created in Oct 17, 2015 12:40:54 PM.
  *
+ * @author u2tzjtne
  * @deprecated use {@link FileBinary} instead.
  */
 @Deprecated
 public class BitmapBinary extends BasicBinary {
 
-    private Bitmap mBitmap;
+    private final Bitmap mBitmap;
 
     /**
      * An input stream {@link Binary}.
@@ -57,22 +58,28 @@ public class BitmapBinary extends BasicBinary {
      */
     public BitmapBinary(Bitmap bitmap, String fileName, String mimeType) {
         super(fileName, mimeType);
-        if (bitmap == null)
+        if (bitmap == null) {
             throw new IllegalArgumentException("Bitmap is null: " + fileName);
-        if (bitmap.isRecycled())
+        }
+        if (bitmap.isRecycled()) {
             throw new IllegalArgumentException("Bitmap is recycled: " + fileName + ", bitmap must be not recycled.");
+        }
         this.mBitmap = bitmap;
     }
 
     @Override
     protected InputStream getInputStream() throws IOException {
-        if (mBitmap.isRecycled()) return null;
+        if (mBitmap.isRecycled()) {
+            return null;
+        }
         return new ByteArrayInputStream(bitmap2ByteArray(mBitmap));
     }
 
     @Override
     public long getBinaryLength() {
-        if (mBitmap.isRecycled()) return 0;
+        if (mBitmap.isRecycled()) {
+            return 0;
+        }
         return bitmap2ByteArray(mBitmap).length;
     }
 

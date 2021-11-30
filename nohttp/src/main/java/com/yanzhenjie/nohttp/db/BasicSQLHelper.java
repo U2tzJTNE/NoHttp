@@ -34,5 +34,4 @@ public abstract class BasicSQLHelper extends SQLiteOpenHelper {
     public BasicSQLHelper(Context context, String dbName, SQLiteDatabase.CursorFactory cursorFactory, int dbVersion) {
         super(context, dbName, cursorFactory, dbVersion);
     }
-
 }

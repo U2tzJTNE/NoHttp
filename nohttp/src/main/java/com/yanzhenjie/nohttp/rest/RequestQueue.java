@@ -24,17 +24,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <p> Request Queue. </p>
- *
+ * <p>
  * Created in Oct 19, 2015 8:36:22 AM.
  *
  * @author Yan Zhenjie.
  */
 public class RequestQueue {
 
-    private AtomicInteger mInteger = new AtomicInteger(1);
+    private final AtomicInteger mInteger = new AtomicInteger(1);
     private final BlockingQueue<Work<? extends Request<?>, ?>> mQueue = new PriorityBlockingQueue<>();
     private final CancelerManager mCancelerManager = new CancelerManager();
-    private RequestDispatcher[] mDispatchers;
+    private final RequestDispatcher[] mDispatchers;
 
     /**
      * @param threadPoolSize number of thread pool.
@@ -62,10 +62,10 @@ public class RequestQueue {
     /**
      * Add a request to the queue.
      *
-     * @param what the {@code what} be returned in the result callback.
-     * @param request {@link Request}.
+     * @param what     the {@code what} be returned in the result callback.
+     * @param request  {@link Request}.
      * @param listener {@link OnResponseListener}.
-     * @param <T> {@link T}.
+     * @param <T>      {@link T}.
      */
     public <T> void add(int what, final Request<T> request, OnResponseListener<T> listener) {
         Worker<? extends Request<T>, T> worker = new Worker<>(request);
@@ -140,7 +140,7 @@ public class RequestQueue {
     }
 
     static class AsyncCallback<T>
-      implements OnResponseListener<T> {
+            implements OnResponseListener<T> {
 
         private final OnResponseListener<T> mCallback;
         private BlockingQueue<Work<? extends Request<?>, ?>> mQueue;
@@ -190,10 +190,7 @@ public class RequestQueue {
 
         @Override
         public void onFinish(final int what) {
-            if (mQueue.contains(mWork)) {
-                mQueue.remove(mWork);
-            }
-
+            mQueue.remove(mWork);
             HandlerDelivery.getInstance().post(new Runnable() {
                 @Override
                 public void run() {

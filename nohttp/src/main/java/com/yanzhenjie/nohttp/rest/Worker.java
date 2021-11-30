@@ -18,7 +18,9 @@ package com.yanzhenjie.nohttp.rest;
 import java.util.concurrent.Callable;
 
 /**
- * Created by YanZhenjie on 2018/2/13.
+ *
+ * @author YanZhenjie
+ * @date 2018/2/13
  */
 public class Worker<T extends Request<S>, S>
   implements Callable<Response<S>> {

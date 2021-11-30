@@ -32,10 +32,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class DownloadQueue {
 
-    private AtomicInteger mInteger = new AtomicInteger(1);
+    private final AtomicInteger mInteger = new AtomicInteger(1);
     private final BlockingQueue<Work<? extends DownloadRequest>> mQueue = new PriorityBlockingQueue<>();
     private final CancelerManager mCancelerManager = new CancelerManager();
-    private DownloadDispatcher[] mDispatchers;
+    private final DownloadDispatcher[] mDispatchers;
 
     /**
      * @param threadPoolSize number of thread pool.
@@ -220,9 +220,7 @@ public class DownloadQueue {
 
         private void removeRequest() {
             mCancelerManager.removeCancel(mRequest);
-            if (mQueue.contains(mWork)) {
-                mQueue.remove(mWork);
-            }
+            mQueue.remove(mWork);
         }
     }
 

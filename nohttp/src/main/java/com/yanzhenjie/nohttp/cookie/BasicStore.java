@@ -18,7 +18,9 @@ package com.yanzhenjie.nohttp.cookie;
 import java.net.CookieStore;
 
 /**
- * Created by YanZhenjie on 2018/7/25.
+ *
+ * @author YanZhenjie
+ * @date 2018/7/25
  */
 public abstract class BasicStore<T extends BasicStore<T>>
   implements CookieStore {

@@ -189,7 +189,9 @@ public class BasicRequest<T extends BasicRequest>
             return urlBuilder.toString();
         }
         // form or push params.
-        if (getRequestMethod().allowRequestBody()) return urlBuilder.toString();
+        if (getRequestMethod().allowRequestBody()) {
+            return urlBuilder.toString();
+        }
 
         // third common post.
         buildUrl(urlBuilder);

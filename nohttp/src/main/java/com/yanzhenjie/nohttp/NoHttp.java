@@ -69,8 +69,9 @@ public class NoHttp {
      * Test initialized.
      */
     private static void testInitialize() {
-        if (sInitializeConfig == null)
+        if (sInitializeConfig == null) {
             throw new ExceptionInInitializerError("Please invoke NoHttp.initialize(Application) on Application#onCreate()");
+        }
     }
 
     /**
@@ -376,12 +377,13 @@ public class NoHttp {
      * @return {@link RequestQueue}.
      */
     public static RequestQueue getRequestQueueInstance() {
-        if (sRequestQueueInstance == null)
+        if (sRequestQueueInstance == null) {
             synchronized (NoHttp.class) {
                 if (sRequestQueueInstance == null) {
                     sRequestQueueInstance = newRequestQueue();
                 }
             }
+        }
         return sRequestQueueInstance;
     }
 
@@ -391,12 +393,13 @@ public class NoHttp {
      * @return {@link DownloadQueue}.
      */
     public static DownloadQueue getDownloadQueueInstance() {
-        if (sDownloadQueueInstance == null)
+        if (sDownloadQueueInstance == null) {
             synchronized (NoHttp.class) {
                 if (sDownloadQueueInstance == null) {
                     sDownloadQueueInstance = newDownloadQueue();
                 }
             }
+        }
         return sDownloadQueueInstance;
     }
 }

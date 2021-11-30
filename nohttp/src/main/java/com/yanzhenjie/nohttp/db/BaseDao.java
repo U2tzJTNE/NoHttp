@@ -36,7 +36,7 @@ public abstract class BaseDao<T extends BasicEntity> {
     /**
      * A helper class to manage database creation and version management.
      */
-    private SQLiteOpenHelper liteOpenHelper;
+    private final SQLiteOpenHelper liteOpenHelper;
 
     public BaseDao(SQLiteOpenHelper disk) {
         this.liteOpenHelper = disk;
@@ -66,8 +66,9 @@ public abstract class BaseDao<T extends BasicEntity> {
      * @param database {@link SQLiteDatabase}.
      */
     protected final void closeDateBase(SQLiteDatabase database) {
-        if (database != null && database.isOpen())
+        if (database != null && database.isOpen()) {
             database.close();
+        }
     }
 
     /**
@@ -143,8 +144,9 @@ public abstract class BaseDao<T extends BasicEntity> {
             }
         }
         where.append(')');
-        if (',' == where.charAt(6))
+        if (',' == where.charAt(6)) {
             where.deleteCharAt(6);
+        }
         return delete(where.toString());
     }
 

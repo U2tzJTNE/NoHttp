@@ -18,10 +18,10 @@ package com.yanzhenjie.nohttp.ssl;
 /**
  * <p>Add CipherSuites to the lower version.</p>
  *
- * Created by YanZhenjie on 2017/6/13.
- *
+ * @author YanZhenjie
+ * @date 2017/6/13
  * @deprecated use {@link TLSSocketFactory} instead.
  */
 @Deprecated
-public class CompatSSLSocketFactory
-  extends TLSSocketFactory {}
+public class CompatSSLSocketFactory extends TLSSocketFactory {
+}

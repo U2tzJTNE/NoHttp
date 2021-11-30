@@ -36,7 +36,9 @@ import javax.net.ssl.SSLSocketFactory;
  * <p>
  * Network connection actuator based on URLConnection.
  * </p>
- * Created by Yan Zhenjie on 2016/10/15.
+ *
+ * @author Yan Zhenjie
+ * @date 2016/10/15
  */
 public class URLConnectionNetworkExecutor implements NetworkExecutor {
 
@@ -45,10 +47,11 @@ public class URLConnectionNetworkExecutor implements NetworkExecutor {
         URL url = new URL(request.url());
         HttpURLConnection connection;
         Proxy proxy = request.getProxy();
-        if (proxy == null)
+        if (proxy == null) {
             connection = (HttpURLConnection) url.openConnection();
-        else
+        } else {
             connection = (HttpURLConnection) url.openConnection(proxy);
+        }
 
         connection.setConnectTimeout(request.getConnectTimeout());
         connection.setReadTimeout(request.getReadTimeout());
@@ -56,11 +59,13 @@ public class URLConnectionNetworkExecutor implements NetworkExecutor {
 
         if (connection instanceof HttpsURLConnection) {
             SSLSocketFactory sslSocketFactory = request.getSSLSocketFactory();
-            if (sslSocketFactory != null)
+            if (sslSocketFactory != null) {
                 ((HttpsURLConnection) connection).setSSLSocketFactory(sslSocketFactory);
+            }
             HostnameVerifier hostnameVerifier = request.getHostnameVerifier();
-            if (hostnameVerifier != null)
+            if (hostnameVerifier != null) {
                 ((HttpsURLConnection) connection).setHostnameVerifier(hostnameVerifier);
+            }
         }
 
         // Base attribute
@@ -75,19 +80,21 @@ public class URLConnectionNetworkExecutor implements NetworkExecutor {
 
         // To fix bug: accidental EOFException before API 19.
         List<String> values = headers.getValues(Headers.HEAD_KEY_CONNECTION);
-        if (values == null || values.size() == 0)
+        if (values == null || values.size() == 0) {
             headers.set(Headers.HEAD_KEY_CONNECTION,
                     Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT ?
                             Headers.HEAD_VALUE_CONNECTION_KEEP_ALIVE : Headers.HEAD_VALUE_CONNECTION_CLOSE);
+        }
 
         if (isAllowBody) {
             long contentLength = request.getContentLength();
-            if (contentLength <= Integer.MAX_VALUE)
+            if (contentLength <= Integer.MAX_VALUE) {
                 connection.setFixedLengthStreamingMode((int) contentLength);
-            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 connection.setFixedLengthStreamingMode(contentLength);
-            else
+            } else {
                 connection.setChunkedStreamingMode(256 * 1024);
+            }
             headers.set(Headers.HEAD_KEY_CONTENT_LENGTH, Long.toString(contentLength));
         }
 
@@ -106,8 +113,9 @@ public class URLConnectionNetworkExecutor implements NetworkExecutor {
     private boolean isAllowBody(RequestMethod requestMethod) {
         boolean allowRequestBody = requestMethod.allowRequestBody();
         // Fix Android bug.
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return allowRequestBody && requestMethod != RequestMethod.DELETE;
+        }
         return allowRequestBody;
     }
 
@@ -123,9 +131,9 @@ public class URLConnectionNetworkExecutor implements NetworkExecutor {
      */
     public static InputStream getServerStream(int responseCode, String contentEncoding, HttpURLConnection
             urlConnection) throws IOException {
-        if (responseCode >= 400)
+        if (responseCode >= 400) {
             return getErrorStream(contentEncoding, urlConnection);
-        else {
+        } else {
             return getInputStream(contentEncoding, urlConnection);
         }
     }

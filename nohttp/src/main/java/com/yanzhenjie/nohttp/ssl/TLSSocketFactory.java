@@ -31,22 +31,23 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 /**
- * Created by YanZhenjie on 2018/5/4.
+ * @author YanZhenjie
+ * @date 2018/5/4
  */
 public class TLSSocketFactory
-  extends SSLSocketFactory {
+        extends SSLSocketFactory {
 
-    private static final String PROTOCOL_ARRAY[];
+    private static final String[] PROTOCOL_ARRAY;
 
     static {
         // https://developer.android.com/about/versions/android-5.0-changes.html#ssl
         // https://developer.android.com/reference/javax/net/ssl/SSLSocket
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            PROTOCOL_ARRAY = new String[] {"TLSv1", "TLSv1.1", "TLSv1.2"};
+            PROTOCOL_ARRAY = new String[]{"TLSv1", "TLSv1.1", "TLSv1.2"};
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            PROTOCOL_ARRAY = new String[] {"SSLv3", "TLSv1", "TLSv1.1", "TLSv1.2"};
+            PROTOCOL_ARRAY = new String[]{"SSLv3", "TLSv1", "TLSv1.1", "TLSv1.2"};
         } else {
-            PROTOCOL_ARRAY = new String[] {"SSLv3", "TLSv1"};
+            PROTOCOL_ARRAY = new String[]{"SSLv3", "TLSv1"};
         }
     }
 
@@ -70,16 +71,16 @@ public class TLSSocketFactory
 
     private static void setSupportProtocolAndCipherSuites(Socket socket) {
         if (socket instanceof SSLSocket) {
-            ((SSLSocket)socket).setEnabledProtocols(PROTOCOL_ARRAY);
+            ((SSLSocket) socket).setEnabledProtocols(PROTOCOL_ARRAY);
         }
     }
 
-    private SSLSocketFactory delegate;
+    private final SSLSocketFactory delegate;
 
     public TLSSocketFactory() {
         try {
             SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(null, new TrustManager[] {DEFAULT_TRUST_MANAGERS}, new SecureRandom());
+            sslContext.init(null, new TrustManager[]{DEFAULT_TRUST_MANAGERS}, new SecureRandom());
             delegate = sslContext.getSocketFactory();
         } catch (GeneralSecurityException e) {
             throw new AssertionError(); // The system has no TLS. Just give up.
@@ -117,7 +118,7 @@ public class TLSSocketFactory
 
     @Override
     public Socket createSocket(String host, int port, InetAddress localHost, int localPort)
-      throws IOException {
+            throws IOException {
         Socket ssl = delegate.createSocket(host, port, localHost, localPort);
         setSupportProtocolAndCipherSuites(ssl);
         return ssl;
@@ -132,7 +133,7 @@ public class TLSSocketFactory
 
     @Override
     public Socket createSocket(InetAddress address, int port, InetAddress localAddress, int localPort)
-      throws IOException {
+            throws IOException {
         Socket ssl = delegate.createSocket(address, port, localAddress, localPort);
         setSupportProtocolAndCipherSuites(ssl);
         return ssl;

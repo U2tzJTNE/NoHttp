@@ -23,7 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Yan Zhenjie on 2016/10/15.
+ *
+ * @author Yan Zhenjie
+ * @date 2016/10/15
  */
 public interface Network extends Closeable {
 

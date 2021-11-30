@@ -67,15 +67,14 @@ public class Encryption {
         for (int i = 0; i < arrBTmp.length && i < arrB.length; i++) {
             arrB[i] = arrBTmp[i];
         }
-        Key key = new javax.crypto.spec.SecretKeySpec(arrB, "DES");
-        return key;
+        return new javax.crypto.spec.SecretKeySpec(arrB, "DES");
     }
 
     public static String byteArrayToHexStr(byte[] byteArray) throws Exception {
         int len = byteArray.length;
-        StringBuffer sb = new StringBuffer(len * 2);
-        for (int i = 0; i < len; i++) {
-            int intTmp = byteArray[i];
+        StringBuilder sb = new StringBuilder(len * 2);
+        for (int b : byteArray) {
+            int intTmp = b;
             while (intTmp < 0) {
                 intTmp = intTmp + 256;
             }
@@ -110,8 +109,8 @@ public class Encryption {
             MessageDigest digest = MessageDigest.getInstance("MD5");
             byte[] tempBytes = digest.digest(content.getBytes());
             int digital;
-            for (int i = 0; i < tempBytes.length; i++) {
-                digital = tempBytes[i];
+            for (byte tempByte : tempBytes) {
+                digital = tempByte;
                 if (digital < 0) {
                     digital += 256;
                 }

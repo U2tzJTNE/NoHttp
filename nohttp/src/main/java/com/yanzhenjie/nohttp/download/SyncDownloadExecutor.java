@@ -18,7 +18,9 @@ package com.yanzhenjie.nohttp.download;
 import com.yanzhenjie.nohttp.NoHttp;
 
 /**
- * <p>Synchronize File Downloader.</p> Created by Yan Zhenjie on 2016/10/12.
+ *
+ * @author Yan Zhenjie
+ * @date 2016/10/12
  */
 public enum SyncDownloadExecutor {
 

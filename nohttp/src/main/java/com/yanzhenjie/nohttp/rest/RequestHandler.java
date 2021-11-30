@@ -40,8 +40,8 @@ import java.io.IOException;
  */
 public class RequestHandler {
 
-    private CacheStore<CacheEntity> mCacheStore;
-    private HttpConnection mHttpConnection;
+    private final CacheStore<CacheEntity> mCacheStore;
+    private final HttpConnection mHttpConnection;
     private Interceptor mInterceptor;
 
     public RequestHandler(CacheStore<CacheEntity> cache, NetworkExecutor executor) {

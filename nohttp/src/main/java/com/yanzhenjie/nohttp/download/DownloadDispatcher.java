@@ -29,11 +29,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Yan Zhenjie.
  */
 class DownloadDispatcher
-  extends Thread {
+        extends Thread {
 
     private static final ThreadFactory THREAD_FACTORY = new ThreadFactory() {
         private final AtomicInteger mCount = new AtomicInteger(1);
 
+        @Override
         public Thread newThread(Runnable r) {
             return new Thread(r, "Download #" + mCount.getAndIncrement());
         }

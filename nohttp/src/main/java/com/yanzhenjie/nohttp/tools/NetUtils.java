@@ -63,8 +63,9 @@ public class NetUtils {
     private static ConnectivityManager getConnectivityManager() {
         if (sConnectivityManager == null) {
             synchronized (NetUtils.class) {
-                if (sConnectivityManager == null)
+                if (sConnectivityManager == null) {
                     sConnectivityManager = (ConnectivityManager) NoHttp.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                }
             }
         }
         return sConnectivityManager;
@@ -154,33 +155,48 @@ public class NetUtils {
     }
 
     private static boolean isConnected(NetType netType, NetworkInfo networkInfo) {
-        if (networkInfo == null) return false;
+        if (networkInfo == null) {
+            return false;
+        }
 
         switch (netType) {
             case Wifi: {
-                if (!isConnected(networkInfo)) return false;
+                if (!isConnected(networkInfo)) {
+                    return false;
+                }
                 return networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
             }
             case Wired: {
-                if (!isConnected(networkInfo)) return false;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
+                if (!isConnected(networkInfo)) {
+                    return false;
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
                     return networkInfo.getType() == ConnectivityManager.TYPE_ETHERNET;
+                }
                 return false;
             }
             case Mobile: {
-                if (!isConnected(networkInfo)) return false;
+                if (!isConnected(networkInfo)) {
+                    return false;
+                }
                 return networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
             }
             case Mobile2G: {
-                if (!isConnected(Mobile, networkInfo)) return false;
+                if (!isConnected(Mobile, networkInfo)) {
+                    return false;
+                }
                 return isMobileSubType(Mobile2G, networkInfo);
             }
             case Mobile3G: {
-                if (!isConnected(Mobile, networkInfo)) return false;
+                if (!isConnected(Mobile, networkInfo)) {
+                    return false;
+                }
                 return isMobileSubType(Mobile3G, networkInfo);
             }
             case Mobile4G: {
-                if (!isConnected(Mobile, networkInfo)) return false;
+                if (!isConnected(Mobile, networkInfo)) {
+                    return false;
+                }
                 return isMobileSubType(Mobile4G, networkInfo);
             }
         }
@@ -225,9 +241,9 @@ public class NetUtils {
             }
             default: {
                 String subtypeName = networkInfo.getSubtypeName();
-                if (subtypeName.equalsIgnoreCase("TD-SCDMA")
-                        || subtypeName.equalsIgnoreCase("WCDMA")
-                        || subtypeName.equalsIgnoreCase("CDMA2000")) {
+                if ("TD-SCDMA".equalsIgnoreCase(subtypeName)
+                        || "WCDMA".equalsIgnoreCase(subtypeName)
+                        || "CDMA2000".equalsIgnoreCase(subtypeName)) {
                     return netType == Mobile3G;
                 }
                 break;
@@ -286,13 +302,14 @@ public class NetUtils {
             while (enumeration.hasMoreElements()) {
                 NetworkInterface nif = enumeration.nextElement();
                 Enumeration<InetAddress> inetAddresses = nif.getInetAddresses();
-                if (inetAddresses != null)
+                if (inetAddresses != null) {
                     while (inetAddresses.hasMoreElements()) {
                         InetAddress ip = inetAddresses.nextElement();
                         if (!ip.isLoopbackAddress() && isIPv4Address(ip.getHostAddress())) {
                             return ip.getHostAddress();
                         }
                     }
+                }
             }
         }
         return "";

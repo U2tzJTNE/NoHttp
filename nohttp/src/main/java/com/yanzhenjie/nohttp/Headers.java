@@ -214,8 +214,9 @@ public class Headers extends BasicMultiValueMap<String, String> {
      * Format to Hump-shaped words.
      */
     public static String formatKey(String key) {
-        if (TextUtils.isEmpty(key))
+        if (TextUtils.isEmpty(key)) {
             return "";
+        }
 
         key = key.toLowerCase(Locale.ENGLISH);
         String[] words = key.split("-");
@@ -316,8 +317,9 @@ public class Headers extends BasicMultiValueMap<String, String> {
             String key = keySet.next();
             String value = jsonObject.optString(key);
             JSONArray values = new JSONArray(value);
-            for (int i = 0; i < values.length(); i++)
+            for (int i = 0; i < values.length(); i++) {
                 add(key, values.optString(i));
+            }
         }
     }
 
@@ -379,8 +381,7 @@ public class Headers extends BasicMultiValueMap<String, String> {
             if (key.equalsIgnoreCase(HEAD_KEY_SET_COOKIE)) {
                 List<String> cookieValues = getValues(key);
                 for (String cookieStr : cookieValues) {
-                    for (HttpCookie cookie : HttpCookie.parse(cookieStr))
-                        cookies.add(cookie);
+                    cookies.addAll(HttpCookie.parse(cookieStr));
                 }
             }
         }
@@ -395,10 +396,12 @@ public class Headers extends BasicMultiValueMap<String, String> {
     public String getCacheControl() {
         // first http1.1, second http1.0
         List<String> cacheControls = getValues(HEAD_KEY_CACHE_CONTROL);
-        if (cacheControls == null)
+        if (cacheControls == null) {
             cacheControls = getValues(HEAD_KEY_PRAGMA);
-        if (cacheControls == null)
+        }
+        if (cacheControls == null) {
             cacheControls = new ArrayList<>();
+        }
         return TextUtils.join(",", cacheControls);
     }
 
@@ -450,8 +453,9 @@ public class Headers extends BasicMultiValueMap<String, String> {
      */
     public String getContentRange() {
         String contentRange = getFirstValue(HEAD_KEY_CONTENT_RANGE);
-        if (contentRange == null)
+        if (contentRange == null) {
             contentRange = getFirstValue(HEAD_KEY_ACCEPT_RANGE);
+        }
         return contentRange;
     }
 
@@ -525,11 +529,12 @@ public class Headers extends BasicMultiValueMap<String, String> {
      */
     private long getDateField(String key) {
         String value = getFirstValue(key);
-        if (!TextUtils.isEmpty(value))
+        if (!TextUtils.isEmpty(value)) {
             try {
                 return HeaderUtils.parseGMTToMillis(value);
             } catch (ParseException ignored) {
             }
+        }
         return 0;
     }
 }

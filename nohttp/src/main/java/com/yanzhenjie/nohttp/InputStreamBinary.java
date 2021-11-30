@@ -29,6 +29,7 @@ import java.io.InputStream;
  * </p>
  * Created in Oct 17, 2015 12:40:54 PM.
  *
+ * @author u2tzjtne
  * @deprecated use {@link FileBinary} instead.
  */
 @Deprecated
@@ -55,21 +56,24 @@ public class InputStreamBinary extends BasicBinary {
      */
     public InputStreamBinary(InputStream inputStream, String fileName, String mimeType) {
         super(fileName, mimeType);
-        if (inputStream == null)
+        if (inputStream == null) {
             throw new NullPointerException("The inputStream can't be null.");
+        }
         if (!(inputStream instanceof FileInputStream)
                 && !(inputStream instanceof ByteArrayInputStream)
-                && !(inputStream instanceof AssetManager.AssetInputStream))
+                && !(inputStream instanceof AssetManager.AssetInputStream)) {
             throw new IllegalArgumentException("The inputStream must be FileInputStream, ByteArrayInputStream and " +
                     "AssetInputStream.");
+        }
         this.inputStream = inputStream;
     }
 
     @Override
     public long getBinaryLength() {
         try {
-            if (inputStream instanceof FileInputStream)
+            if (inputStream instanceof FileInputStream) {
                 return ((FileInputStream) inputStream).getChannel().size();
+            }
             return inputStream.available();
         } catch (IOException e) {
             Logger.e(e);

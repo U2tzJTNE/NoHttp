@@ -36,7 +36,7 @@ public class ImageRequest extends Request<Bitmap> {
     private final int mMaxWidth;
     private final int mMaxHeight;
     private final Bitmap.Config mDecodeConfig;
-    private ImageView.ScaleType mScaleType;
+    private final ImageView.ScaleType mScaleType;
 
     /**
      * Decoding lock so that we don't decode more than one image at a time (to avoid OOM's).

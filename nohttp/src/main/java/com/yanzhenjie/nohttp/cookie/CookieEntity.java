@@ -63,13 +63,15 @@ class CookieEntity implements BasicEntity {
         this.discard = cookie.getDiscard();
         this.domain = cookie.getDomain();
         long maxAge = cookie.getMaxAge();
-        if (maxAge != -1 && maxAge > 0) {
+        if (maxAge > 0) {
             this.expiry = (maxAge * 1000L) + System.currentTimeMillis();
             if (this.expiry < 0L) // 溢出
+            {
                 this.expiry = HeaderUtils.getMaxExpiryMillis();
-        } else
+            }
+        } else {
             this.expiry = -1L;
-
+        }
         this.path = cookie.getPath();
         if (!TextUtils.isEmpty(path) && path.length() > 1 && path.endsWith("/")) {
             this.path = path.substring(0, path.length() - 1);
@@ -90,10 +92,11 @@ class CookieEntity implements BasicEntity {
         cookie.setCommentURL(commentURL);
         cookie.setDiscard(discard);
         cookie.setDomain(domain);
-        if (expiry == -1L)
+        if (expiry == -1L) {
             cookie.setMaxAge(-1L);
-        else
+        } else {
             cookie.setMaxAge((expiry - System.currentTimeMillis()) / 1000L);
+        }
         cookie.setPath(path);
         cookie.setPortlist(portList);
         cookie.setSecure(secure);

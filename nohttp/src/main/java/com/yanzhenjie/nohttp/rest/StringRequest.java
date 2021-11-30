@@ -48,8 +48,9 @@ public class StringRequest extends Request<String> {
      * @return result fro response.
      */
     public static String parseResponseString(Headers responseHeaders, byte[] responseBody) {
-        if (responseBody == null || responseBody.length == 0)
+        if (responseBody == null || responseBody.length == 0) {
             return "";
+        }
         String charset = HeaderUtils.parseHeadValue(responseHeaders.getContentType(), "charset", "");
         return IOUtils.toString(responseBody, charset);
     }

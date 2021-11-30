@@ -16,7 +16,8 @@
 package com.yanzhenjie.nohttp.rest;
 
 /**
- * Created by YanZhenjie on 2018/1/12.
+ * @author YanZhenjie
+ * @date 2018/1/12
  */
 public interface Interceptor {
 

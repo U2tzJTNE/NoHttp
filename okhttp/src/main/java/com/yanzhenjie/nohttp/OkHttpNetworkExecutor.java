@@ -25,7 +25,9 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
 
 /**
- * Created by Yan Zhenjie on 2016/10/15.
+ *
+ * @author Yan Zhenjie
+ * @date 2016/10/15
  */
 public class OkHttpNetworkExecutor implements NetworkExecutor {
 
@@ -39,11 +41,13 @@ public class OkHttpNetworkExecutor implements NetworkExecutor {
 
         if (connection instanceof HttpsURLConnection) {
             SSLSocketFactory sslSocketFactory = request.getSSLSocketFactory();
-            if (sslSocketFactory != null)
+            if (sslSocketFactory != null) {
                 ((HttpsURLConnection) connection).setSSLSocketFactory(sslSocketFactory);
+            }
             HostnameVerifier hostnameVerifier = request.getHostnameVerifier();
-            if (hostnameVerifier != null)
+            if (hostnameVerifier != null) {
                 ((HttpsURLConnection) connection).setHostnameVerifier(hostnameVerifier);
+            }
         }
 
         connection.setRequestMethod(request.getRequestMethod().getValue());
@@ -55,11 +59,13 @@ public class OkHttpNetworkExecutor implements NetworkExecutor {
         Headers headers = request.getHeaders();
 
         List<String> values = headers.getValues(Headers.HEAD_KEY_CONNECTION);
-        if (values == null || values.size() == 0)
+        if (values == null || values.size() == 0) {
             headers.add(Headers.HEAD_KEY_CONNECTION, Headers.HEAD_VALUE_CONNECTION_KEEP_ALIVE);
+        }
 
-        if (isAllowBody)
+        if (isAllowBody) {
             headers.set(Headers.HEAD_KEY_CONTENT_LENGTH, Long.toString(request.getContentLength()));
+        }
 
         Map<String, String> requestHeaders = headers.toRequestHeaders();
         for (Map.Entry<String, String> headerEntry : requestHeaders.entrySet()) {

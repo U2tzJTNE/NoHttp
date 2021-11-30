@@ -61,10 +61,12 @@ public class FileBinary extends BasicBinary {
      */
     public FileBinary(File file, String fileName, String mimeType) {
         super(fileName, mimeType);
-        if (file == null)
+        if (file == null) {
             throw new IllegalArgumentException("File is null: " + fileName);
-        if (!file.exists())
+        }
+        if (!file.exists()) {
             throw new IllegalArgumentException("File not found: " + fileName);
+        }
         mFile = file;
     }
 

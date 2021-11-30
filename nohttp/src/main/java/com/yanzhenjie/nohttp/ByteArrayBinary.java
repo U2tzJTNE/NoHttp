@@ -26,12 +26,13 @@ import java.io.InputStream;
  * </p>
  * Created in Oct 17, 2015 12:40:54 PM.
  *
+ * @author u2tzjtne
  * @deprecated use {@link FileBinary} instead.
  */
 @Deprecated
 public class ByteArrayBinary extends BasicBinary {
 
-    private byte[] byteArray;
+    private final byte[] byteArray;
 
     /**
      * A byte array of {@link Binary}.
@@ -52,8 +53,9 @@ public class ByteArrayBinary extends BasicBinary {
      */
     public ByteArrayBinary(byte[] byteArray, String fileName, String mimeType) {
         super(fileName, mimeType);
-        if (byteArray == null)
+        if (byteArray == null) {
             throw new IllegalArgumentException("ByteArray is null: " + fileName);
+        }
         this.byteArray = byteArray;
     }
 

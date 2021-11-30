@@ -44,10 +44,11 @@ public class ResCompat {
 
     public static Drawable getDrawable(int drawableId, Theme theme) {
         Resources resources = NoHttp.getContext().getResources();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return resources.getDrawable(drawableId, theme);
-        else
+        } else {
             return resources.getDrawable(drawableId);
+        }
     }
 
     public static void setLeftDrawable(TextView textView, Drawable leftDrawable) {
@@ -123,8 +124,9 @@ public class ResCompat {
     }
 
     public static void setDrawableBounds(Drawable drawable) {
-        if (drawable != null)
+        if (drawable != null) {
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        }
     }
 
     public static int getColor(int colorId) {
@@ -133,10 +135,11 @@ public class ResCompat {
 
     public static int getColor(int colorId, Theme theme) {
         Resources resources = NoHttp.getContext().getResources();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return resources.getColor(colorId, theme);
-        else
+        } else {
             return resources.getColor(colorId);
+        }
     }
 
     public static ColorStateList getColorStateList(int colorStateId) {
@@ -145,10 +148,11 @@ public class ResCompat {
 
     public static ColorStateList getColorStateList(int colorStateId, Theme theme) {
         Resources resources = NoHttp.getContext().getResources();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return resources.getColorStateList(colorStateId, theme);
-        else
+        } else {
             return resources.getColorStateList(colorStateId);
+        }
     }
 
     public static void setBackground(View view, int drawableId) {
@@ -156,10 +160,11 @@ public class ResCompat {
     }
 
     public static void setBackground(View view, Drawable background) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             view.setBackground(background);
-        else
+        } else {
             view.setBackgroundDrawable(background);
+        }
     }
 
     public static SpannableString getScaleText(CharSequence content, int start, int end, int px) {

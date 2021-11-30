@@ -27,7 +27,7 @@ import java.util.Set;
  */
 public class BasicMultiValueMap<K, V> implements MultiValueMap<K, V> {
 
-    private Map<K, List<V>> mSource;
+    private final Map<K, List<V>> mSource;
 
     public BasicMultiValueMap(Map<K, List<V>> source) {
         mSource = source;
@@ -35,17 +35,19 @@ public class BasicMultiValueMap<K, V> implements MultiValueMap<K, V> {
 
     @Override
     public void add(K key, V value) {
-        if (!containsKey(key))
+        if (!containsKey(key)) {
             mSource.put(key, new ArrayList<V>(1));
+        }
         getValues(key).add(value);
     }
 
     @Override
     public void add(K key, List<V> values) {
-        if (!containsKey(key))
+        if (!containsKey(key)) {
             mSource.put(key, values);
-        else
+        } else {
             mSource.get(key).addAll(values);
+        }
     }
 
     @Override
@@ -102,8 +104,9 @@ public class BasicMultiValueMap<K, V> implements MultiValueMap<K, V> {
     @Override
     public V getValue(K key, int index) {
         List<V> values = getValues(key);
-        if (values != null && values.size() > index)
+        if (values != null && values.size() > index) {
             return values.get(index);
+        }
         return null;
     }
 

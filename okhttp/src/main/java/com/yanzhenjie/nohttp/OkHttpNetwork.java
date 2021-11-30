@@ -25,7 +25,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Yan Zhenjie on 2017/2/12.
+ *
+ * @author Yan Zhenjie
+ * @date 2017/2/12
  */
 public class OkHttpNetwork implements Network {
 

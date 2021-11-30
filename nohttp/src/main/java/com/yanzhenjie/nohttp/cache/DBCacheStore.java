@@ -36,11 +36,11 @@ public class DBCacheStore extends BasicCacheStore {
     /**
      * Database sync lock.
      */
-    private Lock mLock;
+    private final Lock mLock;
     /**
      * Database manager.
      */
-    private BaseDao<CacheEntity> mManager;
+    private final BaseDao<CacheEntity> mManager;
 
     private boolean mEnable = true;
 
@@ -60,7 +60,9 @@ public class DBCacheStore extends BasicCacheStore {
         mLock.lock();
         key = uniqueKey(key);
         try {
-            if (!mEnable) return null;
+            if (!mEnable) {
+                return null;
+            }
             Where where = new Where(CacheSQLHelper.KEY, Where.Options.EQUAL, key);
             List<CacheEntity> cacheEntities = mManager.getList(where.get(), null, null, null);
             return cacheEntities.size() > 0 ? cacheEntities.get(0) : null;
@@ -74,7 +76,9 @@ public class DBCacheStore extends BasicCacheStore {
         mLock.lock();
         key = uniqueKey(key);
         try {
-            if (!mEnable) return cacheEntity;
+            if (!mEnable) {
+                return cacheEntity;
+            }
             cacheEntity.setKey(key);
             mManager.replace(cacheEntity);
             return cacheEntity;
@@ -88,8 +92,9 @@ public class DBCacheStore extends BasicCacheStore {
         mLock.lock();
         key = uniqueKey(key);
         try {
-            if (!mEnable)
+            if (!mEnable) {
                 return false;
+            }
             Where where = new Where(CacheSQLHelper.KEY, Where.Options.EQUAL, key);
             return mManager.delete(where.toString());
         } finally {

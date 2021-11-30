@@ -18,14 +18,15 @@ package com.yanzhenjie.nohttp.download;
 import java.util.concurrent.Callable;
 
 /**
- * Created by YanZhenjie on 2018/2/13.
+ * @author YanZhenjie
+ * @date 2018/2/13
  */
 public class Worker<T extends DownloadRequest>
-  implements Callable<Void> {
+        implements Callable<Void> {
 
-    private int mWhat;
+    private final int mWhat;
     private final T mRequest;
-    private DownloadListener mListener;
+    private final DownloadListener mListener;
 
     public Worker(int what, T request, DownloadListener listener) {
         this.mWhat = what;

@@ -33,7 +33,7 @@ import java.io.OutputStream;
  * @author Yan Zhenjie.
  */
 public abstract class BasicBinary
-  implements Binary, Startable, Finishable {
+        implements Binary, Startable, Finishable {
 
     private boolean isStarted = false;
 
@@ -57,7 +57,7 @@ public abstract class BasicBinary
     /**
      * To monitor file upload progress.
      *
-     * @param what in {@link OnUploadListener} will return to you.
+     * @param what             in {@link OnUploadListener} will return to you.
      * @param mProgressHandler {@link OnUploadListener}.
      */
     public void setUploadListener(int what, OnUploadListener mProgressHandler) {
@@ -67,7 +67,9 @@ public abstract class BasicBinary
 
     @Override
     public final long getLength() {
-        if (!isCancelled()) return getBinaryLength();
+        if (!isCancelled()) {
+            return getBinaryLength();
+        }
         return 0;
     }
 
@@ -81,8 +83,9 @@ public abstract class BasicBinary
             InputStream inputStream = null;
             try {
                 inputStream = getInputStream();
-                if (inputStream == null) return;
-
+                if (inputStream == null) {
+                    return;
+                }
                 inputStream = IOUtils.toBufferedInputStream(inputStream);
                 start();
                 postStart();
@@ -99,9 +102,9 @@ public abstract class BasicBinary
                     outputStream.write(buffer, 0, len);
                     if (totalLength != 0 && mUploadListener != null) {
                         hasUpCount += len;
-                        int progress = (int)(hasUpCount * 100 / totalLength);
+                        int progress = (int) (hasUpCount * 100 / totalLength);
                         if ((0 == progress % 3 || 0 == progress % 5 || 0 == progress % 7) &&
-                            oldProgress != progress) {
+                                oldProgress != progress) {
                             oldProgress = progress;
                             postProgress(oldProgress);
                         }
@@ -120,7 +123,9 @@ public abstract class BasicBinary
 
     @Override
     public String getFileName() {
-        if (TextUtils.isEmpty(fileName)) fileName = Long.toString(System.currentTimeMillis());
+        if (TextUtils.isEmpty(fileName)) {
+            fileName = Long.toString(System.currentTimeMillis());
+        }
         return fileName;
     }
 
@@ -131,7 +136,9 @@ public abstract class BasicBinary
             String extension = MimeTypeMap.getFileExtensionFromUrl(fileName);
             mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
         }
-        if (TextUtils.isEmpty(mimeType)) mimeType = Headers.HEAD_VALUE_CONTENT_TYPE_OCTET_STREAM;
+        if (TextUtils.isEmpty(mimeType)) {
+            mimeType = Headers.HEAD_VALUE_CONTENT_TYPE_OCTET_STREAM;
+        }
         return mimeType;
     }
 
@@ -242,8 +249,8 @@ public abstract class BasicBinary
         return isFinish;
     }
 
-    private class UploadPoster
-      implements Runnable {
+    private static class UploadPoster
+            implements Runnable {
 
         private final int what;
         private final OnUploadListener mOnUploadListener;
@@ -289,11 +296,17 @@ public abstract class BasicBinary
         @Override
         public void run() {
             if (mOnUploadListener != null) {
-                if (command == ON_START) mOnUploadListener.onStart(what);
-                else if (command == ON_FINISH) mOnUploadListener.onFinish(what);
-                else if (command == ON_PROGRESS) mOnUploadListener.onProgress(what, progress);
-                else if (command == ON_CANCEL) mOnUploadListener.onCancel(what);
-                else if (command == ON_ERROR) mOnUploadListener.onError(what, exception);
+                if (command == ON_START) {
+                    mOnUploadListener.onStart(what);
+                } else if (command == ON_FINISH) {
+                    mOnUploadListener.onFinish(what);
+                } else if (command == ON_PROGRESS) {
+                    mOnUploadListener.onProgress(what, progress);
+                } else if (command == ON_CANCEL) {
+                    mOnUploadListener.onCancel(what);
+                } else if (command == ON_ERROR) {
+                    mOnUploadListener.onError(what, exception);
+                }
             }
         }
 

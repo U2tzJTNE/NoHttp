@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class CacheEntityDao extends BaseDao<CacheEntity> {
 
-    private Encryption mEncryption;
+    private final Encryption mEncryption;
 
     public CacheEntityDao(Context context) {
         super(new CacheSQLHelper(context));

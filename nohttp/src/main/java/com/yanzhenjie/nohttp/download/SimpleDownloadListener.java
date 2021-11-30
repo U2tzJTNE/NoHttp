@@ -18,7 +18,8 @@ package com.yanzhenjie.nohttp.download;
 import com.yanzhenjie.nohttp.Headers;
 
 /**
- * Created by YanZhenjie on 2017/6/19.
+ * @author YanZhenjie
+ * @date 2017/6/19
  */
 public class SimpleDownloadListener implements DownloadListener {
 

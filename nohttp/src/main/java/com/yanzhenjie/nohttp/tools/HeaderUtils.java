@@ -95,8 +95,9 @@ public class HeaderUtils {
             String language = locale.getLanguage();
             String country = locale.getCountry();
             StringBuilder acceptLanguageBuilder = new StringBuilder(language);
-            if (!TextUtils.isEmpty(country))
+            if (!TextUtils.isEmpty(country)) {
                 acceptLanguageBuilder.append('-').append(country).append(',').append(language);
+            }
             acceptLanguageInstance = acceptLanguageBuilder.toString();
         }
         return acceptLanguageInstance;
@@ -157,7 +158,7 @@ public class HeaderUtils {
             StringTokenizer tokens = new StringTokenizer(cacheControl, ",");
             while (tokens.hasMoreTokens()) {
                 String token = tokens.nextToken().trim().toLowerCase(Locale.getDefault());
-                if ((token.equals("no-cache") || token.equals("no-store"))) {
+                if (("no-cache".equals(token) || "no-store".equals(token))) {
                     return 0;
                 } else if (token.startsWith("max-age=")) {
                     maxAge = Long.parseLong(token.substring(8));
@@ -175,8 +176,9 @@ public class HeaderUtils {
         // Have CacheControl.
         if (!TextUtils.isEmpty(cacheControl)) {
             localExpire = now + maxAge * 1000;
-            if (staleWhileRevalidate > 0)
+            if (staleWhileRevalidate > 0) {
                 localExpire += staleWhileRevalidate * 1000;
+            }
         }
 
         // If the server through control the cache Expires.

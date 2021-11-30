@@ -24,7 +24,9 @@ import java.io.File;
  * <p>
  * File download handle based on BasicRequest.
  * </p>
- * Created by YanZhenjie on Jul 31, 2015 10:38:10 AM.
+ *
+ * @author YanZhenjie
+ * @date Jul 31, 2015 10:38:10 AM
  */
 public class DownloadRequest extends BasicRequest<DownloadRequest> {
     /**
@@ -143,11 +145,13 @@ public class DownloadRequest extends BasicRequest<DownloadRequest> {
         if (this.isRange) {
             try {
                 File lastFile = new File(mFileDir, mFileName);
-                if (lastFile.exists() && !isDeleteOld)
+                if (lastFile.exists() && !isDeleteOld) {
                     return STATUS_FINISH;
+                }
                 File tempFile = new File(mFileDir, mFileName + ".nohttp");
-                if (tempFile.exists())
+                if (tempFile.exists()) {
                     return STATUS_RESUME;
+                }
             } catch (Exception ignored) {
             }
         }

@@ -21,7 +21,9 @@ import com.yanzhenjie.nohttp.RequestMethod;
  * <p>
  * Based on the implementation of the queue handle.
  * </p>
- * Created by YanZhenjie on Oct 20, 2015 4:24:27 PM.
+ *
+ * @author YanZhenjie
+ * @date Oct 20, 2015 4:24:27 PM
  *
  * @deprecated use {@link Request} instead.
  */

@@ -16,7 +16,9 @@
 package com.yanzhenjie.nohttp;
 
 /**
- * Created by Yan Zhenjie on 2016/10/15.
+ *
+ * @author Yan Zhenjie
+ * @date 2016/10/15
  */
 public interface NetworkExecutor {
 

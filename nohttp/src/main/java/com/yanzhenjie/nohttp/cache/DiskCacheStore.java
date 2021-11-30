@@ -32,21 +32,23 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * <p>You must remember to check the runtime permissions.</p>
- * Created by Yan Zhenjie on 2016/10/15.
+ *
+ * @author Yan Zhenjie
+ * @date 2016/10/15
  */
 public class DiskCacheStore extends BasicCacheStore {
     /**
      * Database sync lock.
      */
-    private Lock mLock;
+    private final Lock mLock;
     /**
      *
      */
-    private Encryption mEncryption;
+    private final Encryption mEncryption;
     /**
      * Folder.
      */
-    private String mCacheDirectory;
+    private final String mCacheDirectory;
 
     /**
      * You must remember to check the runtime permissions.
@@ -65,8 +67,9 @@ public class DiskCacheStore extends BasicCacheStore {
     public DiskCacheStore(Context context, String cacheDirectory) {
         super(context);
 
-        if (TextUtils.isEmpty(cacheDirectory))
+        if (TextUtils.isEmpty(cacheDirectory)) {
             throw new IllegalArgumentException("The cacheDirectory can't be null.");
+        }
         mLock = new ReentrantLock();
         mEncryption = new Encryption(DiskCacheStore.class.getSimpleName());
         mCacheDirectory = cacheDirectory;
@@ -79,11 +82,13 @@ public class DiskCacheStore extends BasicCacheStore {
 
         BufferedReader bufferedReader = null;
         try {
-            if (TextUtils.isEmpty(key))
+            if (TextUtils.isEmpty(key)) {
                 return null;
+            }
             File file = new File(mCacheDirectory, key);
-            if (!file.exists() || file.isDirectory())
+            if (!file.exists() || file.isDirectory()) {
                 return null;
+            }
             CacheEntity cacheEntity = new CacheEntity();
 
             bufferedReader = new BufferedReader(new FileReader(file));
@@ -108,8 +113,9 @@ public class DiskCacheStore extends BasicCacheStore {
 
         BufferedWriter bufferedWriter = null;
         try {
-            if (TextUtils.isEmpty(key) || cacheEntity == null)
+            if (TextUtils.isEmpty(key) || cacheEntity == null) {
                 return cacheEntity;
+            }
             initialize();
             File file = new File(mCacheDirectory, key);
 

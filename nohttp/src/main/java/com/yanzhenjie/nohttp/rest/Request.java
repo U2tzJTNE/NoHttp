@@ -25,7 +25,9 @@ import com.yanzhenjie.nohttp.RequestMethod;
  * <p>
  * Support the characteristics of the queue.
  * </p>
- * Created by Yan Zhenjie on Oct 16, 2015 8:22:06 PM.
+ *
+ * @author Yan Zhenjie
+ * @date Oct 16, 2015 8:22:06 PM
  */
 public abstract class Request<Result> extends BasicRequest<Request> {
     /**

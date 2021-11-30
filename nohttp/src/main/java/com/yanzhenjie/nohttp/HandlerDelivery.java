@@ -29,15 +29,17 @@ public final class HandlerDelivery {
     private static HandlerDelivery instance;
 
     public static HandlerDelivery getInstance() {
-        if (instance == null)
+        if (instance == null) {
             synchronized (HandlerDelivery.class) {
-                if (instance == null)
+                if (instance == null) {
                     instance = new HandlerDelivery(new Handler(Looper.getMainLooper()));
+                }
             }
+        }
         return instance;
     }
 
-    private Handler mHandler;
+    private final Handler mHandler;
 
     private HandlerDelivery(Handler handler) {
         this.mHandler = handler;

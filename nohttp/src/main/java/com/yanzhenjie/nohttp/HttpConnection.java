@@ -42,11 +42,13 @@ import java.util.Map;
  * <p>
  * Responsible for Http network connection and data read and write.
  * </p>
- * Created by Yan Zhenjie on 2016/9/4.
+ *
+ * @author Yan Zhenjie
+ * @date 2016/9/4
  */
 public class HttpConnection {
 
-    private NetworkExecutor mExecutor;
+    private final NetworkExecutor mExecutor;
 
     public HttpConnection(NetworkExecutor executor) {
         this.mExecutor = executor;
@@ -68,8 +70,9 @@ public class HttpConnection {
         Network network = null;
         String url = request.url();
         try {
-            if (!NetUtils.isNetworkAvailable())
+            if (!NetUtils.isNetworkAvailable()) {
                 throw new NetworkError("The network is not available, please check the network. The requested url is:" + url);
+            }
 
             // MalformedURLException, IOException, ProtocolException, UnknownHostException, SocketTimeoutException
             network = createConnectionAndWriteData(request);
@@ -96,8 +99,9 @@ public class HttpConnection {
         } catch (Exception e) {
             exception = e;
         } finally {
-            if (exception != null)
+            if (exception != null) {
                 Logger.e(exception);
+            }
         }
         Logger.d("--------------Request finish--------------");
         return new Connection(network, responseHeaders, inputStream, exception);
@@ -125,7 +129,9 @@ public class HttpConnection {
             }
         }
         if (failed) {
-            throw exception;
+            if (exception != null) {
+                throw exception;
+            }
         } else if (request.getRequestMethod().allowRequestBody()) {
             writeRequestBody(request, network.getOutputStream());
         }
@@ -154,13 +160,15 @@ public class HttpConnection {
 
         // Connection.
         List<String> values = headers.getValues(Headers.HEAD_KEY_CONNECTION);
-        if (values == null || values.size() == 0)
+        if (values == null || values.size() == 0) {
             headers.add(Headers.HEAD_KEY_CONNECTION, Headers.HEAD_VALUE_CONNECTION_KEEP_ALIVE);
+        }
 
         // Content-Length.
         RequestMethod requestMethod = request.getRequestMethod();
-        if (requestMethod.allowRequestBody())
+        if (requestMethod.allowRequestBody()) {
             headers.set(Headers.HEAD_KEY_CONTENT_LENGTH, Long.toString(request.getContentLength()));
+        }
 
         // Cookie.
         headers.addCookie(new URI(url), NoHttp.getInitializeConfig().getCookieManager());
@@ -195,9 +203,9 @@ public class HttpConnection {
         BasicRequest<?> redirectRequest = null;
         RedirectHandler redirectHandler = oldRequest.getRedirectHandler();
         if (redirectHandler != null) {
-            if (redirectHandler.isDisallowedRedirect(responseHeaders))
+            if (redirectHandler.isDisallowedRedirect(responseHeaders)) {
                 return new Connection(null, responseHeaders, null, null);
-            else {
+            } else {
                 redirectRequest = redirectHandler.onRedirect(oldRequest, responseHeaders);
             }
         }
@@ -251,10 +259,12 @@ public class HttpConnection {
             List<String> headValues = headers.getValues(headKey);
             for (String headValue : headValues) {
                 StringBuilder builder = new StringBuilder();
-                if (!TextUtils.isEmpty(headKey))
+                if (!TextUtils.isEmpty(headKey)) {
                     builder.append(headKey).append(": ");
-                if (!TextUtils.isEmpty(headValue))
+                }
+                if (!TextUtils.isEmpty(headValue)) {
                     builder.append(headValue);
+                }
                 Logger.i(builder.toString());
             }
         }

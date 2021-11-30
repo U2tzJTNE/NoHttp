@@ -24,7 +24,9 @@ import okhttp3.internal.huc.OkHttpURLConnection;
 import okhttp3.internal.huc.OkHttpsURLConnection;
 
 /**
- * Created by Yan Zhenjie on 2016/9/4.
+ *
+ * @author Yan Zhenjie
+ * @date 2016/9/4
  */
 public class URLConnectionFactory implements Cloneable {
 
@@ -87,8 +89,12 @@ public class URLConnectionFactory implements Cloneable {
         OkHttpClient copy = mClient.newBuilder().proxy(proxy).build();
 
         String protocol = url.getProtocol();
-        if (protocol.equals("http")) return new OkHttpURLConnection(url, copy);
-        if (protocol.equals("https")) return new OkHttpsURLConnection(url, copy);
+        if ("http".equals(protocol)) {
+            return new OkHttpURLConnection(url, copy);
+        }
+        if ("https".equals(protocol)) {
+            return new OkHttpsURLConnection(url, copy);
+        }
         throw new IllegalArgumentException("Unexpected protocol: " + protocol);
     }
 }

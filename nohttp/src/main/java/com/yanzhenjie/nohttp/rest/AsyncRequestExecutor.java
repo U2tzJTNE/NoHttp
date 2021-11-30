@@ -25,7 +25,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * <p> Asynchronous handle executor.
  *
- * </p> Created by Yan Zhenjie on 2017/2/15.
+ * @author Yan Zhenjie
+ * @date 2017/2/15
  */
 public enum AsyncRequestExecutor {
 
@@ -34,6 +35,7 @@ public enum AsyncRequestExecutor {
     private static final ThreadFactory THREAD_FACTORY = new ThreadFactory() {
         private final AtomicInteger mCount = new AtomicInteger(1);
 
+        @Override
         public Thread newThread(Runnable r) {
             return new Thread(r, "Request #" + mCount.getAndIncrement());
         }

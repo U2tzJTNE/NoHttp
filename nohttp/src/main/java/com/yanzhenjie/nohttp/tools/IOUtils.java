@@ -49,24 +49,27 @@ import java.util.List;
 public class IOUtils {
 
     public static void closeQuietly(Closeable closeable) {
-        if (closeable != null)
+        if (closeable != null) {
             try {
                 closeable.close();
             } catch (Exception ignored) {
             }
+        }
     }
 
     public static void flushQuietly(Flushable flushable) {
-        if (flushable != null)
+        if (flushable != null) {
             try {
                 flushable.flush();
             } catch (Exception ignored) {
             }
+        }
     }
 
     public static void closeQuietly(HttpURLConnection urlConnection) {
-        if (urlConnection != null)
+        if (urlConnection != null) {
             urlConnection.disconnect();
+        }
     }
 
     public static BufferedInputStream toBufferedInputStream(InputStream inputStream) {
@@ -123,16 +126,18 @@ public class IOUtils {
     }
 
     public static byte[] toByteArray(CharSequence input) {
-        if (input == null)
+        if (input == null) {
             return new byte[0];
+        }
         return input.toString().getBytes();
     }
 
     public static byte[] toByteArray(CharSequence input, String encoding) throws UnsupportedEncodingException {
-        if (input == null)
+        if (input == null) {
             return new byte[0];
-        else
+        } else {
             return input.toString().getBytes(encoding);
+        }
     }
 
     public static byte[] toByteArray(InputStream input) throws IOException {
@@ -143,19 +148,24 @@ public class IOUtils {
     }
 
     public static byte[] toByteArray(InputStream input, int size) throws IOException {
-        if (size < 0)
+        if (size < 0) {
             throw new IllegalArgumentException("Size must be equal or greater than zero: " + size);
+        }
 
-        if (size == 0) return new byte[0];
+        if (size == 0) {
+            return new byte[0];
+        }
 
         byte[] data = new byte[size];
         int offset = 0;
         int byteCount;
-        while ((offset < size) && (byteCount = input.read(data, offset, size - offset)) != -1)
+        while ((offset < size) && (byteCount = input.read(data, offset, size - offset)) != -1) {
             offset += byteCount;
+        }
 
-        if (offset != size)
+        if (offset != size) {
             throw new IOException("Unexpected byte count size. current: " + offset + ", excepted: " + size);
+        }
         return data;
     }
 
@@ -219,55 +229,65 @@ public class IOUtils {
     }
 
     public static void write(byte[] data, OutputStream output) throws IOException {
-        if (data != null)
+        if (data != null) {
             output.write(data);
+        }
     }
 
     public static void write(byte[] data, Writer output) throws IOException {
-        if (data != null)
+        if (data != null) {
             output.write(new String(data));
+        }
     }
 
     public static void write(byte[] data, Writer output, String encoding) throws IOException {
-        if (data != null)
+        if (data != null) {
             output.write(new String(data, encoding));
+        }
     }
 
     public static void write(char[] data, Writer output) throws IOException {
-        if (data != null)
+        if (data != null) {
             output.write(data);
+        }
     }
 
     public static void write(char[] data, OutputStream output) throws IOException {
-        if (data != null)
+        if (data != null) {
             output.write(new String(data).getBytes());
+        }
     }
 
     public static void write(char[] data, OutputStream output, String encoding) throws IOException {
-        if (data != null)
+        if (data != null) {
             output.write(new String(data).getBytes(encoding));
+        }
     }
 
     public static void write(CharSequence data, Writer output) throws IOException {
-        if (data != null)
+        if (data != null) {
             output.write(data.toString());
+        }
     }
 
     public static void write(CharSequence data, OutputStream output) throws IOException {
-        if (data != null)
+        if (data != null) {
             output.write(data.toString().getBytes());
+        }
     }
 
     public static void write(CharSequence data, OutputStream output, String encoding) throws IOException {
-        if (data != null)
+        if (data != null) {
             output.write(data.toString().getBytes(encoding));
+        }
     }
 
     public static void write(InputStream inputStream, OutputStream outputStream) throws IOException {
         int len;
         byte[] buffer = new byte[4096];
-        while ((len = inputStream.read(buffer)) != -1)
+        while ((len = inputStream.read(buffer)) != -1) {
             outputStream.write(buffer, 0, len);
+        }
     }
 
     public static void write(Reader input, OutputStream output) throws IOException {
@@ -300,8 +320,9 @@ public class IOUtils {
     public static void write(Reader input, Writer output) throws IOException {
         int len;
         char[] buffer = new char[4096];
-        while (-1 != (len = input.read(buffer)))
+        while (-1 != (len = input.read(buffer))) {
             output.write(buffer, 0, len);
+        }
     }
 
     public static boolean contentEquals(InputStream input1, InputStream input2) throws IOException {
@@ -311,7 +332,9 @@ public class IOUtils {
         int ch = input1.read();
         while (-1 != ch) {
             int ch2 = input2.read();
-            if (ch != ch2) return false;
+            if (ch != ch2) {
+                return false;
+            }
             ch = input1.read();
         }
 
@@ -340,11 +363,11 @@ public class IOUtils {
 
         String line1 = br1.readLine();
         String line2 = br2.readLine();
-        while ((line1 != null) && (line2 != null) && (line1.equals(line2))) {
+        while ((line1 != null) && (line1.equals(line2))) {
             line1 = br1.readLine();
             line2 = br2.readLine();
         }
-        return line1 != null && (line2 == null || line1.equals(line2));
+        return line1 != null && line2 == null;
     }
 
     /**
@@ -360,10 +383,11 @@ public class IOUtils {
         } catch (Exception e) {
             return 0;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             return stat.getBlockSizeLong() * stat.getAvailableBlocksLong();
-        else
+        } else {
             return (long) stat.getBlockSize() * (long) stat.getAvailableBlocks();
+        }
     }
 
     /**
@@ -408,8 +432,9 @@ public class IOUtils {
      */
     public static boolean createFolder(File targetFolder) {
         if (targetFolder.exists()) {
-            if (targetFolder.isDirectory())
+            if (targetFolder.isDirectory()) {
                 return true;
+            }
             //noinspection ResultOfMethodCallIgnored
             targetFolder.delete();
         }
@@ -458,8 +483,9 @@ public class IOUtils {
      */
     public static boolean createFile(File targetFile) {
         if (targetFile.exists()) {
-            if (targetFile.isFile())
+            if (targetFile.isFile()) {
                 return true;
+            }
             delFileOrFolder(targetFile);
         }
         try {
@@ -490,8 +516,9 @@ public class IOUtils {
      * @return True: success, or false: failure.
      */
     public static boolean createNewFile(File targetFile) {
-        if (targetFile.exists())
+        if (targetFile.exists()) {
             delFileOrFolder(targetFile);
+        }
         try {
             return targetFile.createNewFile();
         } catch (IOException e) {
@@ -519,16 +546,18 @@ public class IOUtils {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static boolean delFileOrFolder(File file) {
-        if (file == null || !file.exists()) {
-            // do nothing
-        } else if (file.isFile())
-            file.delete();
-        else if (file.isDirectory()) {
-            File[] files = file.listFiles();
-            if (files != null)
-                for (File sonFile : files)
-                    delFileOrFolder(sonFile);
-            file.delete();
+        if (file != null && file.exists()) {
+            if (file.isFile()) {
+                file.delete();
+            } else if (file.isDirectory()) {
+                File[] files = file.listFiles();
+                if (files != null) {
+                    for (File sonFile : files) {
+                        delFileOrFolder(sonFile);
+                    }
+                }
+                file.delete();
+            }
         }
         return true;
     }

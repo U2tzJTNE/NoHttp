@@ -36,7 +36,9 @@ import javax.net.ssl.SSLSocketFactory;
 
 /**
  * <p>Initialize the save parameters.</p>
- * Created by YanZhenjie on 2017/6/14.
+ *
+ * @author YanZhenjie
+ * @date 2017/6/14
  */
 public final class InitializationConfig {
 
@@ -44,25 +46,25 @@ public final class InitializationConfig {
         return new Builder(context);
     }
 
-    private Context mContext;
+    private final Context mContext;
 
-    private int mConnectTimeout;
-    private int mReadTimeout;
+    private final int mConnectTimeout;
+    private final int mReadTimeout;
 
-    private int mRetryCount;
+    private final int mRetryCount;
     private SSLSocketFactory mSSLSocketFactory;
     private HostnameVerifier mHostnameVerifier;
 
-    private MultiValueMap<String, String> mHeaders;
-    private MultiValueMap<String, String> mParams;
+    private final MultiValueMap<String, String> mHeaders;
+    private final MultiValueMap<String, String> mParams;
 
     private CookieStore mCookieStore;
-    private CookieManager mCookieManager;
+    private final CookieManager mCookieManager;
     private CacheStore<CacheEntity> mCacheStore;
 
     private NetworkExecutor mNetworkExecutor;
 
-    private Interceptor mInterceptor;
+    private final Interceptor mInterceptor;
 
     private InitializationConfig(Builder builder) {
         this.mContext = builder.mContext;
@@ -72,28 +74,33 @@ public final class InitializationConfig {
 
         this.mRetryCount = builder.mRetryCount;
         this.mSSLSocketFactory = builder.mSSLSocketFactory;
-        if (this.mSSLSocketFactory == null)
+        if (this.mSSLSocketFactory == null) {
             this.mSSLSocketFactory = SSLUtils.defaultSSLSocketFactory();
+        }
 
         this.mHostnameVerifier = builder.mHostnameVerifier;
-        if (this.mHostnameVerifier == null)
+        if (this.mHostnameVerifier == null) {
             this.mHostnameVerifier = SSLUtils.defaultHostnameVerifier();
+        }
 
         this.mHeaders = builder.mHeaders;
         this.mParams = builder.mParams;
 
         mCookieStore = builder.mCookieStore;
-        if (mCookieStore == null)
+        if (mCookieStore == null) {
             mCookieStore = new DBCookieStore(mContext);
+        }
         this.mCookieManager = new CookieManager(mCookieStore, CookiePolicy.ACCEPT_ALL);
 
         this.mCacheStore = builder.mCacheStore;
-        if (this.mCacheStore == null)
+        if (this.mCacheStore == null) {
             this.mCacheStore = new DBCacheStore(mContext);
+        }
 
         this.mNetworkExecutor = builder.mNetworkExecutor;
-        if (this.mNetworkExecutor == null)
+        if (this.mNetworkExecutor == null) {
             this.mNetworkExecutor = new URLConnectionNetworkExecutor();
+        }
 
         this.mInterceptor = builder.mInterceptor;
     }
@@ -152,7 +159,7 @@ public final class InitializationConfig {
 
     public final static class Builder {
 
-        private Context mContext;
+        private final Context mContext;
 
         private int mConnectTimeout = 10 * 1000;
         private int mReadTimeout = 10 * 1000;
@@ -161,8 +168,8 @@ public final class InitializationConfig {
         private SSLSocketFactory mSSLSocketFactory;
         private HostnameVerifier mHostnameVerifier;
 
-        private MultiValueMap<String, String> mHeaders = new LinkedMultiValueMap<>();
-        private MultiValueMap<String, String> mParams = new LinkedMultiValueMap<>();
+        private final MultiValueMap<String, String> mHeaders = new LinkedMultiValueMap<>();
+        private final MultiValueMap<String, String> mParams = new LinkedMultiValueMap<>();
 
         private CookieStore mCookieStore;
         private CacheStore<CacheEntity> mCacheStore;

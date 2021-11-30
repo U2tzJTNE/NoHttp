@@ -36,6 +36,7 @@ public class RequestDispatcher
     private static final ThreadFactory THREAD_FACTORY = new ThreadFactory() {
         private final AtomicInteger mCount = new AtomicInteger(1);
 
+        @Override
         public Thread newThread(Runnable r) {
             return new Thread(r, "Request #" + mCount.getAndIncrement());
         }

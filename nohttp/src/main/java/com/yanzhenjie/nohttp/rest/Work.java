@@ -26,10 +26,10 @@ import java.util.concurrent.FutureTask;
  * Created by YanZhenjie on 2018/2/13.
  */
 final class Work<T extends Request<S>, S>
-  extends FutureTask<Response<S>>
-  implements Cancelable, Comparable<Work<? extends Request<?>, ?>> {
+        extends FutureTask<Response<S>>
+        implements Cancelable, Comparable<Work<? extends Request<?>, ?>> {
 
-    private Worker<T, S> mWorker;
+    private final Worker<T, S> mWorker;
     private final int mWhat;
     private final OnResponseListener<S> mCallback;
 
@@ -46,7 +46,9 @@ final class Work<T extends Request<S>, S>
     }
 
     public void setLock(Object lock) {
-        if (mLock != null) throw new IllegalStateException("The lock has been set.");
+        if (mLock != null) {
+            throw new IllegalStateException("The lock has been set.");
+        }
         this.mLock = lock;
     }
 
@@ -56,7 +58,9 @@ final class Work<T extends Request<S>, S>
 
     @Override
     public void run() {
-        if (mLock == null) throw new IllegalStateException("The lock is null.");
+        if (mLock == null) {
+            throw new IllegalStateException("The lock is null.");
+        }
         synchronized (mLock) {
             mWorker.getRequest().start();
 
@@ -84,8 +88,8 @@ final class Work<T extends Request<S>, S>
         } catch (ExecutionException e) {
             Throwable cause = e.getCause();
             if (!isCancelled()) {
-                if (cause != null && cause instanceof Exception) {
-                    Exception ee = (Exception)cause;
+                if (cause instanceof Exception) {
+                    Exception ee = (Exception) cause;
                     Response<S> response = new RestResponse<>(mWorker.getRequest(), false, null, null, 0, ee);
                     mCallback.onFailed(mWhat, response);
                 } else {

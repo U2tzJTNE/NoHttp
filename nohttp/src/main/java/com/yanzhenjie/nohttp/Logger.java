@@ -150,9 +150,9 @@ public class Logger {
     private static void print(String method, String tag, String message) {
         if (SDebug) {
             int strLength = message.length();
-            if (strLength == 0)
+            if (strLength == 0) {
                 invokePrint(method, tag, message);
-            else {
+            } else {
                 for (int i = 0; i < strLength / MAX_LENGTH + (strLength % MAX_LENGTH > 0 ? 1 : 0); i++) {
                     int end = (i + 1) * MAX_LENGTH;
                     if (strLength >= end) {
@@ -219,7 +219,7 @@ public class Logger {
      * @param e       error.
      */
     private static void invokePrint(String method, String tag, String message, Throwable e) {
-        if (SDebug)
+        if (SDebug) {
             try {
                 Class<android.util.Log> logClass = android.util.Log.class;
                 Method logMethod = logClass.getMethod(method, String.class, String.class, Throwable.class);
@@ -228,6 +228,7 @@ public class Logger {
             } catch (Exception e1) {
                 System.out.println(tag + ": " + message);
             }
+        }
     }
 
 }
