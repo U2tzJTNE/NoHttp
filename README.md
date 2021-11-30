@@ -1,23 +1,24 @@
 # NoHttp
 
-QQ技术交流群：[46505645](https://jq.qq.com/?_wv=1027&k=5ImVHCl)
-
-**特别说明**：强烈建议开发者切换到另一个网络框架[Kalle](https://github.com/yanzhenjie/Kalle)，Kalle在架构设计上、Api设计上、功能实现上都更加健壮和完善，文档也比较全面。
-
-Kalle开源地址：[https://github.com/yanzhenjie/Kalle](https://github.com/yanzhenjie/Kalle)  
-Kalle文档地址：[http://yanzhenjie.github.io/Kalle](http://yanzhenjie.github.io/Kalle)
-
-**NoHttp依旧正常维护**，正在使用和即将要使用的同学可以放心使用。
+**特别说明**：本项目fork自[yanzhenjie/NoHttp](https://github.com/yanzhenjie/NoHttp)
 
 ## 添加依赖
-如果使用HttpURLConnection作为网络层
+
+在你项目的build.gradle文件中添加jitpack的仓库
+
 ```groovy
-implementation 'com.yanzhenjie.nohttp:nohttp:1.1.11'
+allprojects {
+	repositories {
+		...
+        maven { url 'https://jitpack.io' }
+    }
+}
 ```
 
-如果要使用OkHttp作为网络层，请再依赖
+由于项目中几乎全部使用okhttp，所以已将其合并到主项目
+
 ```groovy
-implementation 'com.yanzhenjie.nohttp:okhttp:1.1.11'
+implementation 'com.github.U2tzJTNE:NoHttp:1.1.12'
 ```
 
 ### 一般初始化
@@ -36,7 +37,8 @@ InitializationConfig config = InitializationConfig.newBuilder(context)
 NoHttp.initialize(config);
 ```
 
-关于超时，很多人都没有彻底理解或理解有误差，本人在知乎上写过一个答案，请参考：  
+关于超时，很多人都没有彻底理解或理解有误差，可参考下面文章参考：  
+
 [HTTP 在什么情况下会请求超时？](https://www.zhihu.com/question/21609463/answer/160100810)  
 
 下面介绍上方省略的**其它配置**的详情。
@@ -72,7 +74,7 @@ InitializationConfig config = InitializationConfig.newBuilder(context)
 **说明**：
 1. 上方配置可以全部配置，也可以只配置其中一个或者几个。
 2. addHeader()、addParam()可以调用多次，且值不会被覆盖。
-3. 使用`DiskCacheStore()`时默认缓存到`context.getCacheDir()`目录，使用`DiskCacheStore(path)`指定缓存目录为`path`，不过要注意SD卡的读写权限和运行时权限：[AndPermission](https://github.com/yanzhenjie/AndPermission)。
+3. 使用`DiskCacheStore()`时默认缓存到`context.getCacheDir()`目录，使用`DiskCacheStore(path)`指定缓存目录为`path`，不过要注意SD卡的读写权限和运行时权限。
 
 配置缓存位置为SD卡示例：
 ```java
@@ -116,6 +118,7 @@ Logger.setTag("NoHttpSample");// 打印Log的tag。
 ## 第三方异步框架
 
 `NoHttp`的核心就是同步请求方法，`NoHttp`的异步方法（`AsyncRequestExecutor`、`RequestQueue`都是基于同步请求封装的），所以使用`RxJava`、`AsyncTask`等都可以很好的封装`NoHttp`，一个请求`String`的示例：
+
 ```
 StringRequest request = new String(url, RequestMethod.GET);
 Response<String> response = SyncRequestExecutor.INSTANCE.execute(request);
@@ -126,10 +129,6 @@ if (response.isSucceed()) {
     Exception e = response.getException();
 }
 ```
-
-下面是两个项目群里的基友基于RxJava + NoHttp封装的，开发者可以作为参考或者直接使用：
-1. [IRequest](https://github.com/yuanshenbin/IRequest)（袁慎彬）
-2. [NohttpRxUtils](https://github.com/LiqiNew/NohttpRxUtils)（李奇）
 
 # 同步请求和异步请求
 `NoHttp`的请求模块的核心其实就是同步请求：`SyncRequestExecutor`；`NoHttp`的异步请求分为两个类型，一个是异步请求执行器：`AsyncRequestExecutor`，另一个是请求队列：`RequestQueue`。
@@ -296,11 +295,9 @@ public class CallServer {
 1. 每一个请求都需要解析`String`成`XML`、`JSON`等，逻辑判断麻烦，代码冗余。
 2. 解析过程在主线程进行，数据量过大时解析过程必将耗时，会造成不好的用户体验（App假死）。
 
-所以本人写了一片如何结合业务直接请求`JavaBean`、`List`、`Map`、`Protobuf`的博文：  
-[http://blog.csdn.net/yanzhenjie1003/article/details/70158030](http://blog.csdn.net/yanzhenjie1003/article/details/70158030)
-
 ## 请求不同数据的几种Request
 `NoHttp`请求什么样的数据是由`Request`决定的，`NoHttp`本身已经提供了请求`String`、`Bitmap`、`JSONObject`、`JSONArray`的`Request`：
+
 ```java
 // 请求String：
 StringRequest request = new StringRequest(url, method);
@@ -316,12 +313,12 @@ JsonArrayRequest request = new JsonArrayRequest(url, method);
 ```
 
 ## 拼装URL
-这个能力是在1.1.3开始增加的，也是本次升级的一个亮点，增加拼装URL的方法，比如服务器是RESTFUL风格的API，请求用户信息时可能是这样一个URL：  
-```
+比如服务器是RESTFUL风格的API，请求用户信息时可能是这样一个URL：  
+```html
 http://api.nohttp.net/rest/<userid>/userinfo
 ```
 这里的`<userid>`就是用户名或者用户id，需要开发者动态替换，然后获取用户信息。以前是这样做的：
-```
+```java
 String userName = AppConfig.getUserName();
 
 String url = "http://api.nohttp.net/rest/%1$s/userinfo";
@@ -331,7 +328,7 @@ StringRequest request = new StringRequest(url);
 ...
 ```
 现在可以这样做：
-```
+```java
 String url = "http://api.nohttp.net/rest/";
 
 StringRequest request = new StringRequest(url)
@@ -558,9 +555,6 @@ public class FastJsonRequest extends RestRequestor<JSONObject> {
     }
 }
 ```
-这只是一个自定义请求的演示，比如开发者还可以结合业务封装`Request`，可以直接请求到业务的`JavaBean`、`List`等复杂数据，具体请参考这篇博文：  
-[http://blog.csdn.net/yanzhenjie1003/article/details/70158030](http://blog.csdn.net/yanzhenjie1003/article/details/70158030)
-
 # 文件下载
 因为下载文件代码比较多，这里贴关键部分，具体的请参考demo。  
 
@@ -726,10 +720,6 @@ public void stopDownload() {
     private javax.net.ssl.SSLSocketFactory delegate;
 }
 ```
-
-## 关于我
-:smile:关注一下我的微信公众号支持我一波  
-![微信二维码](http://img.blog.csdn.net/20161020083048694)  
 
 ## License
 ```text

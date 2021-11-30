@@ -17,7 +17,6 @@ package com.yanzhenjie.nohttp.sample;
 
 import android.app.Application;
 
-import com.squareup.leakcanary.LeakCanary;
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumConfig;
 import com.yanzhenjie.nohttp.InitializationConfig;
@@ -31,19 +30,19 @@ import com.yanzhenjie.nohttp.sample.http.LoginInterceptor;
 import com.yanzhenjie.nohttp.sample.util.MediaLoader;
 
 /**
- * Created by YanZhenjie on 2018/3/27.
+ * @author YanZhenjie
+ * @date 2018/3/27
  */
 public class App
-  extends Application {
+        extends Application {
 
-    private static App _instance;
+    private static App instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        if (_instance == null) {
-            LeakCanary.install(this);
-            _instance = this;
+        if (instance == null) {
+            instance = this;
 
             Logger.setDebug(BuildConfig.DEBUG);
         }
@@ -53,17 +52,17 @@ public class App
         AppConfig.get().initFileDir();
 
         NoHttp.initialize(InitializationConfig.newBuilder(this)
-                            .networkExecutor(new OkHttpNetworkExecutor())
-                            .cacheStore(new DiskCacheStore(this))
-                            .cookieStore(new DBCookieStore(this))
-                            .interceptor(new LoginInterceptor())
-                            .build());
+                .networkExecutor(new OkHttpNetworkExecutor())
+                .cacheStore(new DiskCacheStore(this))
+                .cookieStore(new DBCookieStore(this))
+                .interceptor(new LoginInterceptor())
+                .build());
 
         Album.initialize(AlbumConfig.newBuilder(this).setAlbumLoader(new MediaLoader()).build());
     }
 
     public static App get() {
-        return _instance;
+        return instance;
     }
 
 }

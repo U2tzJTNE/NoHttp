@@ -68,7 +68,7 @@ public class BasicRequest<T extends BasicRequest>
     /**
      * Request method.
      */
-    private RequestMethod mRequestMethod;
+    private final RequestMethod mRequestMethod;
     /**
      * MultipartFormEnable.
      */
@@ -104,11 +104,11 @@ public class BasicRequest<T extends BasicRequest>
     /**
      * Request heads.
      */
-    private Headers mHeaders;
+    private final Headers mHeaders;
     /**
      * Param collection.
      */
-    private Params mParams;
+    private final Params mParams;
     /**
      * RequestBody.
      */

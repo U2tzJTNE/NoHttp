@@ -31,7 +31,7 @@ import java.util.Map;
  */
 public class OkHttpNetwork implements Network {
 
-    private HttpURLConnection mUrlConnection;
+    private final HttpURLConnection mUrlConnection;
 
     public OkHttpNetwork(HttpURLConnection urlConnection) {
         this.mUrlConnection = urlConnection;

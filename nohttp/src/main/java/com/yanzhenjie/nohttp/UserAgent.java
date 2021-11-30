@@ -39,8 +39,9 @@ public class UserAgent {
      * @see #newInstance()
      */
     public static String instance() {
-        if (TextUtils.isEmpty(userAgent))
+        if (TextUtils.isEmpty(userAgent)) {
             userAgent = newInstance();
+        }
         return userAgent;
     }
 

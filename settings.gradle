@@ -1,1 +1,2 @@
-include ':nohttp', ':okhttp', ':sample'
+rootProject.name = "NoHttp"
+include ':nohttp', ':sample'

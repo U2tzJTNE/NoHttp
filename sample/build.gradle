@@ -14,13 +14,7 @@ android {
 }
 
 dependencies {
-    testImplementation rootProject.ext.dependencies.junit
-    androidTestImplementation(rootProject.ext.dependencies.expressoCore) {
-        exclude group: "com.android.support", module: "support-annotations"
-    }
-
-    implementation rootProject.ext.dependencies.nohttp
-    implementation rootProject.ext.dependencies.okhttp
+    implementation project(path: ':nohttp')
 
     implementation rootProject.ext.dependencies.appCompat
     implementation rootProject.ext.dependencies.design
@@ -35,8 +29,4 @@ dependencies {
 
     implementation rootProject.ext.dependencies.butterKnife
     annotationProcessor rootProject.ext.dependencies.butterKnifeCompiler
-
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 }

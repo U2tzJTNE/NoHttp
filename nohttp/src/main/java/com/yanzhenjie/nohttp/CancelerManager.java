@@ -21,7 +21,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created by YanZhenjie on 2018/2/27.
+ *
+ * @author YanZhenjie
+ * @date 2018/2/27
  */
 public class CancelerManager {
 
