@@ -65,10 +65,9 @@ public class DBCookieStore
                 Where where = new Where(CookieSQLHelper.EXPIRY, Options.EQUAL, -1L);
                 mCookieEntityDao.delete(where.get());
             }
-        } catch (Exception e) {
+        } finally {
             mLock.unlock();
         }
-
     }
 
     /**
