@@ -12,8 +12,8 @@ ext {
                sampleMinSdkVersion    : 14,
                sampleTargetSdkVersion : 27,
 
-               versionCode            : 123,
-               versionName            : "1.1.13"]
+               versionCode            : 125,
+               versionName            : "1.1.15"]
 
     dependencies = [okhttpUrl          : 'com.squareup.okhttp3:okhttp-urlconnection:3.11.0',
                     appCompat          : 'com.android.support:appcompat-v7:27.1.1',

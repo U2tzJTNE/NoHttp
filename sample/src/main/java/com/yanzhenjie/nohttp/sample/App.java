@@ -51,7 +51,6 @@ public class App
         AppConfig.get().initFileDir();
 
         NoHttp.initialize(InitializationConfig.newBuilder(this)
-                .networkExecutor(new OkHttpNetworkExecutor())
                 .cacheStore(new DiskCacheStore(this))
                 .cookieStore(new DBCookieStore(this))
                 .interceptor(new LoginInterceptor())
