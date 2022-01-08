@@ -218,28 +218,25 @@ public class Headers extends BasicMultiValueMap<String, String> {
             return "";
         }
 
-        key = key.toLowerCase(Locale.ENGLISH);
-        String[] words = key.split("-");
+        return key;
 
-        StringBuilder builder = new StringBuilder();
-        for (String word : words) {
-            String first = word.substring(0, 1);
-            String end = word.substring(1, word.length());
-            builder.append(first.toUpperCase(Locale.ENGLISH)).append(end).append("-");
-        }
-        if (builder.length() > 0) {
-            builder.deleteCharAt(builder.lastIndexOf("-"));
-        }
-        return builder.toString();
+//        key = key.toLowerCase(Locale.ENGLISH);
+//        String[] words = key.split("-");
+//
+//        StringBuilder builder = new StringBuilder();
+//        for (String word : words) {
+//            String first = word.substring(0, 1);
+//            String end = word.substring(1);
+//            builder.append(first.toUpperCase(Locale.ENGLISH)).append(end).append("-");
+//        }
+//        if (builder.length() > 0) {
+//            builder.deleteCharAt(builder.lastIndexOf("-"));
+//        }
+//        return builder.toString();
     }
 
     public Headers() {
-        super(new TreeMap<String, List<String>>(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.compareTo(o2);
-            }
-        }) {
+        super(new TreeMap<String, List<String>>(String::compareTo) {
             @Override
             public List<String> put(String key, List<String> value) {
                 return super.put(formatKey(key), value);
@@ -290,7 +287,7 @@ public class Headers extends BasicMultiValueMap<String, String> {
      */
     public void addCookie(URI uri, CookieHandler cookieHandler) {
         try {
-            Map<String, List<String>> diskCookies = cookieHandler.get(uri, new HashMap<String, List<String>>());
+            Map<String, List<String>> diskCookies = cookieHandler.get(uri, new HashMap<>());
             for (Map.Entry<String, List<String>> entry : diskCookies.entrySet()) {
                 String key = entry.getKey();
                 List<String> value = entry.getValue();
